@@ -91,17 +91,17 @@ def shortest_path(source, target):
     Returns None if no path exists.
     """
 
-    # --- Step 1: Initialize the starting node ---
+    # Step 1: Initialize the starting node 
     start = Node(state=source, parent=None, action=None)
 
-    # --- Step 2: Set up the BFS frontier (a queue = First In, First Out) ---
+    # Step 2: Set up the BFS frontier (a queue = First In, First Out) 
     frontier = QueueFrontier()
     frontier.add(start)
 
-    # --- Step 3: Track explored person IDs to avoid revisiting ---
+    # Step 3: Track explored person IDs to avoid revisiting 
     explored = set()
 
-    # --- Step 4: BFS loop ---
+    # Step 4: BFS loop 
     while True:
 
         # If the frontier is empty, no path exists
@@ -111,7 +111,7 @@ def shortest_path(source, target):
         # Remove the next node from the frontier (FIFO order)
         node = frontier.remove()
 
-        # --- Step 5: Goal check ---
+        # Step 5: Goal check 
         if node.state == target:
             # Reconstruct the path by walking back through parent nodes
             path = []
@@ -121,10 +121,10 @@ def shortest_path(source, target):
             path.reverse()  # Reverse so path goes from source → target
             return path
 
-        # --- Step 6: Mark this person as explored ---
+        # Step 6: Mark this person as explored 
         explored.add(node.state)
 
-        # --- Step 7: Expand neighbors (co-actors via shared movies) ---
+        # Step 7: Expand neighbors (co-actors via shared movies) 
         for movie_id, person_id in neighbors_for_person(node.state):
             if not frontier.contains_state(person_id) and person_id not in explored:
                 child = Node(state=person_id, parent=node, action=movie_id)
